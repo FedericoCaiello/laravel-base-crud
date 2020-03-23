@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Candie;
 
 class CandieController extends Controller
 {
@@ -13,7 +14,8 @@ class CandieController extends Controller
      */
     public function index()
     {
-        //
+      $cadies = Candie::all();
+      dd($cadies);
     }
 
     /**
@@ -23,7 +25,7 @@ class CandieController extends Controller
      */
     public function create()
     {
-        //
+      return view ('candies.create');
     }
 
     /**
@@ -34,7 +36,18 @@ class CandieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $data = $request->all();
+      $candie = new Candie;
+      $candie ->isbn = $data['isbn'];
+      $candie ->price = $data['price'];
+      $candie ->genre = $data['genre'];
+      $candie ->name = $data['name'];
+      $candie ->color = $data['color'];
+      $save = $candie->save();
+      if ($save == true) {
+        return redirect()->route('candies.index');
+      }
+      // dd($request->all());
     }
 
     /**
