@@ -15,7 +15,7 @@ class CandieController extends Controller
     public function index()
     {
       $candies = Candie::all();
-      
+
       return view('candies.index', compact('candies'));
     }
 
@@ -38,17 +38,29 @@ class CandieController extends Controller
     public function store(Request $request)
     {
       $data = $request->all();
+
+      $request->validate([
+        'isbn' => 'required|numeric',
+        'price' => 'required|numeric|mix:1|max:9999.99',
+        'genre' => 'required|string|max:255',
+        'name' => 'required|string|max:255',
+        'color' => 'required|string|max:255'
+      ]);
+
       $candie = new Candie;
-      $candie ->isbn = $data['isbn'];
-      $candie ->price = $data['price'];
-      $candie ->genre = $data['genre'];
-      $candie ->name = $data['name'];
-      $candie ->color = $data['color'];
-      $save = $candie->save();
+      // $candie ->isbn = $data['isbn'];
+      // $candie ->price = $data['price'];
+      // $candie ->genre = $data['genre'];
+      // $candie ->name = $data['name'];
+      // $candie ->color = $data['color'];
+      // $save = $candie->save();
+      $newCandie->fill($data);
+      $save = $newCandie->save();
+
       if ($save == true) {
         return redirect()->route('candies.index');
       }
-      // dd($request->all());
+       dd('Non salvato');
     }
 
     /**
