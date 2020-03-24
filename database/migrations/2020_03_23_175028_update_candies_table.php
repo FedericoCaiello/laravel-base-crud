@@ -26,7 +26,7 @@ class UpdateCandiesTable extends Migration
     public function down()
     {
       Schema::table('candies', function (Blueprint $table) {
-        $table->string('color', 10)->change();
+        $table->string('color', 50)->change();
       });
     }
 }

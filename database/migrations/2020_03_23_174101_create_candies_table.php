@@ -18,7 +18,7 @@ class CreateCandiesTable extends Migration
             $table->string('isbn', 15);
             $table->string('name', 50);
             $table->string('color', 50);
-            $table->string('price', 8, 2);
+            $table->string('price', 6, 2);
             $table->string('genre');
             $table->timestamps();
         });

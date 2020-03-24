@@ -41,7 +41,7 @@ class CandieController extends Controller
 
       $request->validate([
         'isbn' => 'required|numeric',
-        'price' => 'required|numeric|mix:1|max:9999.99',
+        'price' => 'required|numeric|min:1|max:9999.99',
         'genre' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'color' => 'required|string|max:255'
@@ -54,11 +54,13 @@ class CandieController extends Controller
       // $candie ->name = $data['name'];
       // $candie ->color = $data['color'];
       // $save = $candie->save();
-      $newCandie->fill($data);
-      $save = $newCandie->save();
+      $candie->fill($data);
+      $save = $candie->save();
+
 
       if ($save == true) {
-        return redirect()->route('candies.index');
+        $candie = Candie::orderBy('id', 'desc')->first();
+        return redirect()->route('candies.index', compact('candie'));
       }
        dd('Non salvato');
     }
@@ -71,7 +73,13 @@ class CandieController extends Controller
      */
     public function show($id)
     {
-        //
+        $candie = Candie::find($id);
+
+        if(empty($candie)) {
+          abort('404');
+        }
+
+        return view('candies.show', compact('candie'));
     }
 
     /**
@@ -80,9 +88,13 @@ class CandieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Candie $candie)
     {
-        //
+      if(empty($candie)) {
+        abort('404');
+      }
+
+      return view('candies.create', compact('candie'));
     }
 
     /**
