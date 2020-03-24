@@ -14,8 +14,9 @@ class CandieController extends Controller
      */
     public function index()
     {
-      $cadies = Candie::all();
-      dd($cadies);
+      $candies = Candie::all();
+      
+      return view('candies.index', compact('candies'));
     }
 
     /**
